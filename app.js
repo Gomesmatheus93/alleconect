@@ -80,7 +80,7 @@
     document.querySelectorAll("[data-nav]").forEach(item => item.classList.toggle("active", item.dataset.nav === ({home:"home",calculator:"calculator",client:"client"})[key]));
     if (key === "home") { setupCalculator("home"); document.querySelector(".new-bill strong").textContent=money.format(500-(500*config.discountPercentage/100)); setupHomeExperience(); }
     if (key === "calculator") setupCalculator("page");
-    if (key === "adhesion") setupBitrixForm();
+    if (key === "adhesion") { setupBitrixForm(); setupAdhesionCopy(); }
     if (key === "faq") setupFaq();
     if (key === "client") trackEvent("client_area_opened");
     window.scrollTo(0,0);
@@ -131,6 +131,9 @@
     document.querySelector(".hero-actions [data-contact]")?.remove();
     const simulator=document.querySelector("#simulador");
     const rail=document.createElement("section");rail.className="benefits-grid";rail.setAttribute("aria-label","Benefícios Alle");rail.innerHTML=`<article class="benefit-card benefit-orange"><span class="benefit-icon">${svgIcon('<path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 7h6M9 11h3"/><path d="m13 14 2 2 3-4"/>')}</span><div><h2>Economia de ${config.discountPercentage}% na fatura</h2><p>Simule gratuitamente quanto você pode economizar todos os meses.</p></div></article><article class="benefit-card"><span class="benefit-icon">${svgIcon('<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 6h4M9 12l2 2 4-4M11 18h2"/>')}</span><div><h2>Uma jornada simples e digital</h2><p>Do primeiro contato à análise do seu perfil, tudo foi pensado para ser fácil.</p></div></article><article class="benefit-card"><span class="benefit-icon">${svgIcon('<path d="M4 13v-2a8 8 0 0 1 16 0v2"/><path d="M4 13a2 2 0 0 1 2-2h1v6H6a2 2 0 0 1-2-2v-2ZM20 13a2 2 0 0 0-2-2h-1v6h1a2 2 0 0 0 2-2v-2ZM17 17c0 2-2 3-5 3"/><circle cx="11" cy="20" r="1"/>')}</span><div><h2>Atendimento personalizado</h2><p>Fale com a equipe Alle ou acesse o canal exclusivo da sua unidade Allpfit.</p></div></article>`;simulator.before(rail);
+    document.querySelector(".hero-copy>p").textContent="Economize com energia digital: uma experiência simples, conectada e inteligente para reduzir sua conta todos os meses.";
+    const proofItems=document.querySelectorAll(".hero-proof span");if(proofItems[2])proofItems[2].innerHTML="<i>✓</i> Atendente de IA";
+    const benefitCards=rail.querySelectorAll(".benefit-card");benefitCards[1].querySelector("h2").textContent="Economia com energia digital";benefitCards[1].querySelector("p").textContent="Acompanhe uma jornada conectada, prática e pensada para simplificar sua relação com a energia.";benefitCards[2].querySelector("h2").textContent="Atendente de IA";benefitCards[2].querySelector("p").textContent="Conte com atendimento inteligente para tirar dúvidas e encontrar rapidamente o canal certo.";
     const revealItems=document.querySelectorAll(".benefits-grid,.services-section,.how-section,.landing-links,.final-cta,.quick-calculator");
     if("IntersectionObserver" in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("is-visible");observer.unobserve(entry.target);}}),{threshold:.12});revealItems.forEach(item=>{item.classList.add("reveal-section");observer.observe(item);});}else revealItems.forEach(item=>item.classList.add("is-visible"));
     document.querySelectorAll(".service-card").forEach(card=>card.addEventListener("pointermove",event=>{const box=card.getBoundingClientRect();card.style.setProperty("--pointer-x",`${event.clientX-box.left}px`);card.style.setProperty("--pointer-y",`${event.clientY-box.top}px`);}));
@@ -154,6 +157,11 @@
     observer.observe(host,{childList:true,subtree:true});
     host.appendChild(embed);
     trackEvent("bitrix_form_loaded");
+  }
+
+  function setupAdhesionCopy() {
+    const items=document.querySelectorAll(".adhesion-contact li");
+    if(items[0])items[0].innerHTML="<i>✓</i> Atendente de IA";
   }
 
   document.addEventListener("click", event => {

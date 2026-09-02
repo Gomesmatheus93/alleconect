@@ -1,6 +1,6 @@
 /* Configuração central do Alle Connect. Altere contatos, desconto e conteúdo aqui. */
 window.ALLE_CONFIG = Object.freeze({
-  discountPercentage: 12,
+  discountPercentage: 15,
   contacts: {
     generalWhatsApp: "5511999999999",
     officialSite: "https://alleenergia.com",
@@ -15,11 +15,11 @@ window.ALLE_CONFIG = Object.freeze({
   },
   institutional: {
     title: "Energia mais simples, econômica e conectada.",
-    description: "A Alle Energia aproxima pessoas de uma forma mais inteligente de consumir energia, com atendimento simples, economia e liberdade para escolher."
+    description: "A Alle Energia conecta você a uma forma digital e inteligente de consumir energia, combinando economia, tecnologia e liberdade para escolher."
   },
   faq: [
     { question: "Quem pode ser cliente da Alle Energia?", answer: "Pessoas físicas e jurídicas que sejam titulares de uma conta de energia, seja residencial, comercial, rural, em imóvel próprio ou alugado, com um consumo superior a R$ 200,00." },
-    { question: "Já sou cliente e fiquei sem energia. O que faço?", answer: "A qualidade e a responsabilidade pela entrega de energia continuam sendo da distribuidora, mas a Alle Energia intermedia a comunicação com a distribuidora em seu nome. A Alle Energia oferece atendimento humanizado, todos os dias, e tem prioridade junto à distribuidora devido à quantidade de unidades consumidoras sob sua titularidade. Você pode entrar em contato com a Alle por ligação ou WhatsApp pelo número disponível em nossos canais de atendimento." },
+    { question: "Já sou cliente e fiquei sem energia. O que faço?", answer: "A qualidade e a responsabilidade pela entrega de energia continuam sendo da distribuidora, mas a Alle Energia intermedia a comunicação com a distribuidora em seu nome. A Alle Energia oferece atendimento com inteligência artificial, todos os dias, e tem prioridade junto à distribuidora devido à quantidade de unidades consumidoras sob sua titularidade. Você pode entrar em contato com a Alle por ligação ou WhatsApp pelo número disponível em nossos canais de atendimento." },
     { question: "Posso sair da Alle Energia quando quiser?", answer: "Sim. O cliente pode solicitar a saída da Alle Energia a qualquer momento. No entanto, é importante comunicar sua decisão com antecedência, pois a distribuidora de energia exige um prazo de até 60 dias para concluir o processo de desligamento da associação. Durante esse período, o fornecimento e a cobrança de energia continuam normalmente até a finalização da saída." },
     { question: "Quando vou receber minha primeira fatura de energia da Alle Energia?", answer: "Após a troca de titularidade, a primeira fatura pode ser emitida entre 30 e 45 dias após a primeira leitura do medidor, conforme o ciclo de medição da distribuidora. Durante esse período, o fornecimento de energia continua normalmente. Assim que a fatura estiver disponível, ela será enviada por e-mail, WhatsApp e também ficará acessível pelo portal do cliente." },
     { question: "O que acontece se eu atrasar ou deixar de pagar a fatura?", answer: "Caso o cliente fique inadimplente, a Associação poderá realizar a devolução do contrato para a distribuidora, conforme previsto nas regras do termo de adesão. Durante esse processo, o fornecimento de energia não é interrompido, mas o cliente volta a ser faturado diretamente pela distribuidora local." },
