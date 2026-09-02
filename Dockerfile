@@ -1,8 +1,7 @@
 FROM nginx:alpine
 
-# Copia os arquivos estáticos do site para o diretório servido pelo nginx
-COPY index.html /usr/share/nginx/html/
-COPY alleenergia.png /usr/share/nginx/html/
+COPY index.html styles.css config.js app.js alleenergia-logo.png logo-alle-pequena.webp /usr/share/nginx/html/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
