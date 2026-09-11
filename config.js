@@ -2,7 +2,7 @@
 window.ALLE_CONFIG = Object.freeze({
   discountPercentage: 15,
   contacts: {
-    generalWhatsApp: "5511999999999",
+    generalWhatsApp: "5512953697411",
     officialSite: "https://alleenergia.com",
     bitrixForm: {
       code: "inline/100/wqeifh",

@@ -10,6 +10,7 @@
   let selectedState = "TODOS";
   let contactOrigin = "general";
   let lastFocusedElement = null;
+  let stepsObserver = null;
 
   const svgIcon = paths => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
   const icons = {
@@ -73,6 +74,7 @@
 
   function normalizePath(path) { return path !== "/" ? path.replace(/\/$/, "") : path; }
   function renderPage({ focus = false } = {}) {
+    stepsObserver?.disconnect();
     const path = normalizePath(location.pathname);
     const key = path === "/" ? "home" : path === "/calculadora" ? "calculator" : path === "/adesao" ? "adhesion" : path === "/cliente" ? "client" : path === "/duvidas" ? "faq" : path === "/conheca" ? "about" : "notFound";
     main.innerHTML = pages[key]();
@@ -128,6 +130,26 @@
   }
 
   function setupHomeExperience() {
+    document.querySelectorAll(".how-section li").forEach((step,index)=>{
+      step.style.setProperty("--step-delay",`${.5+index*1.8}s`);
+      const badge=step.querySelector(":scope > span");
+      badge.innerHTML=`<span class="step-number">${badge.textContent}</span><svg class="step-check" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>`;
+      badge.setAttribute("aria-label",`Etapa ${index+1}`);
+      const progress=document.createElement("span");
+      progress.className="step-progress";
+      progress.setAttribute("aria-hidden","true");
+      step.querySelector("div").append(progress);
+    });
+    const stepsSection=document.querySelector(".how-section");
+    if("IntersectionObserver" in window){
+      stepsObserver=new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting && entry.intersectionRatio>=.35) stepsSection.classList.add("steps-running");
+          else if(!entry.isIntersecting) stepsSection.classList.remove("steps-running");
+        });
+      },{threshold:[0,.35]});
+      stepsObserver.observe(stepsSection);
+    }else stepsSection.classList.add("steps-running");
     document.querySelector(".hero-actions [data-contact]")?.remove();
     const simulator=document.querySelector("#simulador");
     const rail=document.createElement("section");rail.className="benefits-grid";rail.setAttribute("aria-label","Benefícios Alle");rail.innerHTML=`<article class="benefit-card benefit-orange"><span class="benefit-icon">${svgIcon('<path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 7h6M9 11h3"/><path d="m13 14 2 2 3-4"/>')}</span><div><h2>Economia de ${config.discountPercentage}% na fatura</h2><p>Simule gratuitamente quanto você pode economizar todos os meses.</p></div></article><article class="benefit-card"><span class="benefit-icon">${svgIcon('<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 6h4M9 12l2 2 4-4M11 18h2"/>')}</span><div><h2>Uma jornada simples e digital</h2><p>Do primeiro contato à análise do seu perfil, tudo foi pensado para ser fácil.</p></div></article><article class="benefit-card"><span class="benefit-icon">${svgIcon('<path d="M4 13v-2a8 8 0 0 1 16 0v2"/><path d="M4 13a2 2 0 0 1 2-2h1v6H6a2 2 0 0 1-2-2v-2ZM20 13a2 2 0 0 0-2-2h-1v6h1a2 2 0 0 0 2-2v-2ZM17 17c0 2-2 3-5 3"/><circle cx="11" cy="20" r="1"/>')}</span><div><h2>Atendimento personalizado</h2><p>Fale com a equipe Alle ou acesse o canal exclusivo da sua unidade Allpfit.</p></div></article>`;simulator.before(rail);
