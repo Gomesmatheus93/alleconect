@@ -22,6 +22,9 @@
     edit: svgIcon('<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/>'),
     support: svgIcon('<path d="M4 13v-2a8 8 0 0 1 16 0v2"/><path d="M4 13a2 2 0 0 1 2-2h1v6H6a2 2 0 0 1-2-2ZM20 13a2 2 0 0 0-2-2h-1v6h1a2 2 0 0 0 2-2ZM17 17c0 2-2 3-5 3"/>'),
     share: svgIcon('<path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/>'),
+    viva: svgIcon('<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 1.1-.3 2.1-.7 3"/><path d="M19 15v6M16 18h6"/>'),
+    app: svgIcon('<rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M10 18h4M10 6h4M10 10h4"/>'),
+    home: svgIcon('<path d="m3 11 9-8 9 8"/><path d="M5 9.5V21h14V9.5M10 21v-6h4v6"/>'),
     faq: svgIcon('<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 1 1 5.3 1.9c-1.5 1-2.4 1.7-2.4 3.1M12 18h.01"/>')
   };
   const money = new Intl.NumberFormat("pt-BR", { style:"currency", currency:"BRL" });
@@ -42,10 +45,11 @@
 
   const serviceCard = ({ icon, title, description, action, className = "", attrs = "" }) => `
     <button class="service-card ${className}" type="button" ${attrs}>
-      <span class="card-icon" aria-hidden="true">${icon}</span><h2>${title}</h2><p>${description}</p><span class="card-action">${action} →</span>
+      <span class="card-icon" aria-hidden="true">${icon}</span><h2>${title}</h2><p>${description}</p><span class="card-action">${action}${className.includes("coming-soon") ? "" : " →"}</span>
     </button>`;
 
   const backLink = () => `<a class="back-link" href="/" data-link>← Voltar ao início</a>`;
+  const tools = window.createAlleTools({ config, money, icons, trackEvent });
 
   function renderBitrixForm() {
     return `<div class="bitrix-form-host" id="bitrix-form-host"><div class="bitrix-loading"><span></span><strong>Carregando formulário seguro...</strong></div></div>`;
@@ -55,13 +59,13 @@
 
   const pages = {
     adhesion: () => `<section class="page adhesion-page">${backLink()}<header class="adhesion-hero"><span class="eyebrow">Comece a economizar</span><h1>Faça sua adesão à Alle</h1><p>Preencha o formulário para iniciar sua análise ou fale agora com nossa equipe pelo WhatsApp.</p></header><div class="adhesion-layout"><section class="bitrix-container">${renderBitrixForm()}</section><aside class="adhesion-contact"><span class="adhesion-contact-icon">${icons.chat}</span><span class="eyebrow">Prefere conversar?</span><h2>Fale com um especialista Alle</h2><p>Tire suas dúvidas e receba orientação durante o processo de adesão.</p><ul><li><i>✓</i> Atendimento humanizado</li><li><i>✓</i> Orientação personalizada</li><li><i>✓</i> Canal direto pelo WhatsApp</li></ul><button class="button" type="button" data-direct-contact="adhesion">FALAR NO WHATSAPP <span>→</span></button></aside></div></section>`,
-    home: () => `<section class="page home-page"><section class="landing-hero"><div class="hero-copy"><span class="eyebrow">Energia inteligente para você</span><h1>Economize na conta de energia <em>sem complicação.</em></h1><p>Com a Alle, você tem economia, atendimento próximo e benefícios exclusivos em um único lugar.</p><div class="hero-actions"><a class="button button-primary" href="#simulador">SIMULAR MINHA ECONOMIA <span aria-hidden="true">↓</span></a><button class="button button-secondary" type="button" data-contact>FALAR COM UM ESPECIALISTA</button></div><div class="hero-proof"><span><i>✓</i> Simulação gratuita</span><span><i>✓</i> Processo simples</span><span><i>✓</i> Atendimento humano</span></div></div><aside class="hero-card"><div class="hero-card-head"><span>Estimativa de economia</span><span class="status-pill"><i></i> Online</span></div><div class="hero-card-value"><small>economize até</small><strong>${config.discountPercentage}%</strong><span>todos os meses*</span></div><div class="bill-comparison"><div><span>Conta atual</span><strong>R$ 500</strong></div><span class="comparison-arrow">→</span><div class="new-bill"><span>Com a Alle</span><strong>R$ 450</strong></div></div><button type="button" data-route="/calculadora">Fazer minha simulação <span>↗</span></button><small>*Valor ilustrativo. A economia pode variar.</small></aside></section><div id="simulador">${quickCalculator("home")}</div><section class="services-section"><header class="section-heading"><div><span class="eyebrow">Como podemos ajudar?</span><h2>Encontre o que precisa</h2></div><p>Acesse nossos principais serviços.</p></header><div class="service-grid">
-      ${serviceCard({icon:icons.calculator,title:"Calcule sua economia",description:"Veja quanto você pode economizar na sua conta de energia.",action:"Calcular economia",className:"featured",attrs:'data-route="/calculadora"'})}
-      ${serviceCard({icon:icons.chat,title:"Falar com a Alle",description:"Fale com nossa equipe de atendimento.",action:"Falar agora",attrs:"data-contact"})}
+    home: () => `<section class="page home-page"><section class="landing-hero"><div class="hero-copy"><span class="eyebrow">Energia inteligente para você</span><h1>Economize na conta de energia <em>sem complicação.</em></h1><p>Com a Alle, você tem economia, atendimento próximo e benefícios exclusivos em um único lugar.</p><div class="hero-actions"><a class="button button-primary" href="#simulador">SIMULAR MINHA ECONOMIA <span aria-hidden="true">↓</span></a><button class="button button-secondary" type="button" data-contact>FALAR COM UM ESPECIALISTA</button></div><div class="hero-proof"><span><i>✓</i> Simulação gratuita</span><span><i>✓</i> Processo simples</span><span><i>✓</i> Atendimento humano</span></div></div><aside class="hero-card"><div class="hero-card-head"><span>Estimativa de economia</span><span class="status-pill"><i></i> Online</span></div><div class="hero-card-value"><small>economize até</small><strong>${config.maxDiscountPercentage}%</strong><span>todos os meses*</span></div><div class="bill-comparison"><div><span>Conta atual</span><strong>R$ 500</strong></div><span class="comparison-arrow">→</span><div class="new-bill"><span>Com a Alle</span><strong>R$ 450</strong></div></div><button type="button" data-route="/calculadora">Fazer minha simulação <span>↗</span></button><small>*Valor ilustrativo. A economia pode variar.</small></aside></section><div id="simulador">${quickCalculator("home")}</div><section class="services-section"><header class="section-heading"><div><span class="eyebrow">Como podemos ajudar?</span><h2>Encontre o que precisa</h2></div><p>Acesse nossos principais serviços.</p></header><div class="service-grid">
+      ${serviceCard({icon:icons.chat,title:"Falar com a Alle",description:"Fale com nossa equipe de atendimento.",action:"Falar agora",className:"featured",attrs:"data-contact"})}
       ${serviceCard({icon:icons.allpfit,title:"Sou aluno Allpfit",description:"Condições especiais para alunos Allpfit.",action:"Selecionar minha unidade",className:"allpfit",attrs:"data-allpfit"})}
-      ${serviceCard({icon:icons.client,title:"Já sou cliente Alle",description:"Acesse atendimento e serviços para clientes.",action:"Acessar",attrs:'data-route="/cliente"'})}
+      ${config.partnerLinks.map((partner,index)=>serviceCard({icon:icons[partner.icon],title:partner.title,description:partner.description,action:partner.url?partner.action:"Em breve",className:partner.url?"":"coming-soon",attrs:partner.url?`data-partner-link="${index}"`:'disabled aria-disabled="true"'})).join("")}
     </div></section><section class="how-section"><div><span class="eyebrow">Simples do início ao fim</span><h2>Comece a economizar em três passos</h2><p>Uma experiência rápida, transparente e acompanhada pela nossa equipe.</p></div><ol><li><span>01</span><div><strong>Simule sua economia</strong><p>Informe o valor médio da sua conta.</p></div></li><li><span>02</span><div><strong>Fale com a Alle</strong><p>Nossa equipe analisa o seu perfil.</p></div></li><li><span>03</span><div><strong>Aproveite o benefício</strong><p>Economia simples, todos os meses.</p></div></li></ol></section><section class="landing-links"><div><span class="eyebrow">Conte com a Alle</span><h2>Informação e suporte sempre perto.</h2></div><div class="small-links"><a class="small-link" href="/duvidas" data-link>Dúvidas frequentes <span>→</span></a><a class="small-link" href="/conheca" data-link>Conheça a Alle <span>→</span></a><a class="small-link" href="${config.contacts.officialSite}" target="_blank" rel="noopener noreferrer" data-site-link>Site oficial <span>↗</span></a></div></section><section class="final-cta"><div><span class="eyebrow">Pronto para começar?</span><h2>Sua energia pode custar menos.</h2><p>Faça uma simulação gratuita e descubra seu potencial de economia.</p></div><button class="button" type="button" data-route="/calculadora">CALCULAR AGORA <span>→</span></button></section></section>`,
     calculator: () => `<section class="page calculator-page">${backLink()}<header class="page-header"><span class="eyebrow">Simulação personalizada</span><h1>Descubra quanto você pode economizar</h1><p>Ajuste o valor da sua conta e veja a estimativa em tempo real.</p></header>${quickCalculator("page")}</section>`,
+    energy: () => `<section class="page energy-page">${backLink()}<header class="page-header"><span class="eyebrow">Calculadora de consumo</span><h1>Calcule sua energia</h1><p>Descubra quanto um aparelho consome e custa por mês com a tarifa da sua distribuidora.</p></header><form class="energy-card" data-energy-form novalidate><header class="energy-card-head"><span class="energy-card-icon" aria-hidden="true">${icons.calculator}</span><div><h2>Calculadora de Consumo</h2><p>Resultado instantâneo em kWh e R$ por mês</p></div></header><div class="energy-fields"><label class="energy-field"><span>Distribuidora</span>${tools.distributorSelect("data-energy-distributor required")}</label><label class="energy-field"><span>Potência (watts)</span><input data-energy-power type="number" inputmode="decimal" min="1" step="1" placeholder="Ex: 1400" required></label><label class="energy-field"><span>Horas por dia</span><input data-energy-hours type="number" inputmode="decimal" min="0.1" max="24" step="0.1" placeholder="Ex: 8" required></label><label class="energy-field"><span>Bandeira vigente</span>${tools.flagSelect("data-energy-flag")}</label></div><p class="energy-error" data-energy-error role="alert" hidden></p><button class="energy-submit" type="submit"><span aria-hidden="true">ϟ</span> Calcular Custo Mensal</button><div class="energy-result" data-energy-result aria-live="polite" hidden><div class="energy-totals"><div><span>Consumo mensal</span><strong data-energy-kwh></strong></div><div><span>Custo mensal</span><strong data-energy-cost></strong></div><div><span>Custo anual</span><strong data-energy-annual></strong></div></div><div class="energy-alle"><span>Com a Alle você pode economizar até</span><strong data-energy-saving></strong><small>por mês, com ${config.discountPercentage}% de desconto na fatura.</small></div><button class="calculator-conversion" type="button" data-calculator-contact>QUERO ECONOMIZAR <span aria-hidden="true">→</span></button></div><small class="energy-note">Considera 30 dias de uso no mês. Tarifas residenciais homologadas pela ANEEL, sem impostos (ICMS, PIS e COFINS), atualizadas em ${tools.updatedAt}.</small></form>${tools.highlights()}${tools.section()}</section>`,
     client: () => `<section class="page client-page">${backLink()}<header class="client-hero"><div><span class="eyebrow">Área do cliente</span><h1>Olá, cliente Alle</h1><p>Resolva tudo o que precisa em poucos cliques.</p></div><button class="client-help" type="button" data-direct-contact="client_service"><span>${icons.chat}</span><span><small>Atendimento disponível</small><strong>Falar com a equipe</strong></span><i aria-hidden="true">→</i></button></header><div class="client-section-heading"><div><span class="eyebrow">Acesso rápido</span><h2>Como podemos ajudar?</h2></div><p>Escolha um serviço para continuar.</p></div><div class="action-grid client-actions">
       ${actionCard("chat","Falar com atendimento","Atendimento rápido pelo WhatsApp",'data-direct-contact="client_service"')}${actionCard("invoice","Entender minha fatura","Tire suas dúvidas com a equipe",'data-direct-contact="invoice_help"')}${actionCard("edit","Atualizar meus dados","Solicite uma atualização cadastral",'data-direct-contact="update_data"')}${actionCard("support","Suporte","Conte com o time Alle",'data-direct-contact="support"')}${actionCard("share","Indique a Alle","Compartilhe economia",'data-direct-contact="referral"')}${actionCard("faq","Dúvidas frequentes","Encontre respostas rápidas",'data-route="/duvidas"')}
     </div><aside class="client-note"><span>${icons.support}</span><div><strong>Precisa de outro tipo de suporte?</strong><p>Fale com a equipe Alle e explique o que precisa.</p></div><button type="button" data-direct-contact="support">SOLICITAR AJUDA <span>→</span></button></aside></section>`,
@@ -76,12 +80,15 @@
   function renderPage({ focus = false } = {}) {
     stepsObserver?.disconnect();
     const path = normalizePath(location.pathname);
-    const key = path === "/" ? "home" : path === "/calculadora" ? "calculator" : path === "/adesao" ? "adhesion" : path === "/cliente" ? "client" : path === "/duvidas" ? "faq" : path === "/conheca" ? "about" : "notFound";
-    main.innerHTML = pages[key]();
-    document.title = key === "home" ? "Alle Connect | Alle Energia" : `${({calculator:"Calculadora",adhesion:"Adesão",client:"Área do cliente",faq:"Dúvidas",about:"Conheça a Alle",notFound:"Página não encontrada"})[key]} | Alle Connect`;
+    const tool = tools.routes[path];
+    const key = tool ? "tool" : path === "/" ? "home" : path === "/calculadora" ? "calculator" : path === "/calcule-sua-energia" ? "energy" : path === "/adesao" ? "adhesion" : path === "/cliente" ? "client" : path === "/duvidas" ? "faq" : path === "/conheca" ? "about" : "notFound";
+    main.innerHTML = tool ? tool.render() : pages[key]();
+    document.title = key === "home" ? "Alle Connect | Alle Energia" : tool ? `${tool.title} | Alle Connect` : `${({calculator:"Calculadora",energy:"Calcule sua energia",adhesion:"Adesão",client:"Área do cliente",faq:"Dúvidas",about:"Conheça a Alle",notFound:"Página não encontrada"})[key]} | Alle Connect`;
     document.querySelectorAll("[data-nav]").forEach(item => item.classList.toggle("active", item.dataset.nav === ({home:"home",calculator:"calculator",client:"client"})[key]));
     if (key === "home") { setupCalculator("home"); document.querySelector(".new-bill strong").textContent=money.format(500-(500*config.discountPercentage/100)); setupHomeExperience(); }
     if (key === "calculator") setupCalculator("page");
+    if (key === "energy") setupEnergyCalculator();
+    if (tool) tool.setup(main);
     if (key === "adhesion") { setupBitrixForm(); setupAdhesionCopy(); }
     if (key === "faq") setupFaq();
     if (key === "client") trackEvent("client_area_opened");
@@ -127,6 +134,24 @@
     input.addEventListener("blur",()=>update(parseCurrency(input.value)));
     const conversionButton=root.querySelector("[data-calculator-contact]");conversionButton.childNodes[0].nodeValue="QUERO ECONOMIZAR ";conversionButton.addEventListener("click",()=>trackEvent("calculator_completed",{bill_value:Number(range.value),discount_percentage:config.discountPercentage,location:prefix}));
     update(range.value);
+  }
+
+  function setupEnergyCalculator() {
+    const form=document.querySelector("[data-energy-form]");if(!form)return;
+    const settings=config.energyCalculator,distributor=form.querySelector("[data-energy-distributor]"),power=form.querySelector("[data-energy-power]"),hours=form.querySelector("[data-energy-hours]"),flag=form.querySelector("[data-energy-flag]"),error=form.querySelector("[data-energy-error]"),result=form.querySelector("[data-energy-result]");
+    const show=(selector,value)=>{form.querySelector(selector).textContent=value;};
+    form.addEventListener("submit",event=>{
+      event.preventDefault();
+      const selected=tools.distributors[Number(distributor.value)],watts=Number(power.value),daily=Number(hours.value);
+      const message=!distributor.value?"Selecione a sua distribuidora.":!(watts>0)?"Informe a potência do aparelho em watts.":!(daily>0&&daily<=24)?"Informe de 0,1 a 24 horas por dia.":"";
+      error.textContent=message;error.hidden=!message;
+      if(message){result.hidden=true;form.querySelector(!distributor.value?"[data-energy-distributor]":!(watts>0)?"[data-energy-power]":"[data-energy-hours]").focus();return;}
+      const consumption=watts*daily*30/1000,cost=consumption*(tools.tariffOf(selected)+(settings.flags.find(item=>item.id===flag.value)?.extra||0));
+      show("[data-energy-kwh]",`${consumption.toLocaleString("pt-BR",{maximumFractionDigits:1})} kWh`);show("[data-energy-cost]",money.format(cost));show("[data-energy-annual]",money.format(cost*12));show("[data-energy-saving]",money.format(cost*config.discountPercentage/100));
+      result.hidden=false;
+      trackEvent("energy_calculator_completed",{distributor:selected.name,state:selected.uf,power:watts,hours:daily,flag:flag.value});
+    });
+    trackEvent("energy_calculator_opened");
   }
 
   function setupHomeExperience() {
@@ -192,6 +217,7 @@
     if(event.target.closest("[data-contact]")){showContact("general");return;}
     if(event.target.closest("[data-calculator-contact]")){showContact("calculator");return;}
     if(event.target.closest("[data-allpfit]")){closeModals(false);showUnits();return;}
+    const partner=event.target.closest("[data-partner-link]");if(partner){const item=config.partnerLinks[Number(partner.dataset.partnerLink)];trackEvent("partner_link_clicked",{partner:item.title});openExternal(item.url);return;}
     if(event.target.closest("[data-general-contact]")){closeModals(false);navigate("/adesao");return;}
     const direct=event.target.closest("[data-direct-contact]");if(direct){openGeneralWhatsApp(direct.dataset.directContact);return;}
     if(event.target.closest("[data-close-modal]")){closeModals();return;}

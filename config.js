@@ -1,6 +1,7 @@
 /* Configuração central do Alle Connect. Altere contatos, desconto e conteúdo aqui. */
 window.ALLE_CONFIG = Object.freeze({
-  discountPercentage: 15,
+  discountPercentage: 35,
+  maxDiscountPercentage: 35,
   contacts: {
     generalWhatsApp: "5512953697411",
     officialSite: "https://alleenergia.com",
@@ -8,6 +9,76 @@ window.ALLE_CONFIG = Object.freeze({
       code: "inline/100/wqeifh",
       loaderUrl: "https://cdn.bitrix24.com.br/b29334815/crm/form/loader_100.js"
     }
+  },
+  /* Cards de parceiros em "Encontre o que precisa". Sem url, o card aparece como "Em breve" e não abre nada. */
+  partnerLinks: [
+    { title: "Viva +", description: "Acesse o Viva +.", action: "Acessar", icon: "viva", url: "https://qrcode.allpfit.com.br/r/3zoj01s" },
+    { title: "Super App", description: "Baixe o Super App.", action: "Abrir app", icon: "app", url: "" },
+    { title: "Allp Home", description: "Conheça a Allp Home.", action: "Conhecer", icon: "home", url: "https://qrcode.allpfit.com.br/r/xkk3a8c" }
+  ],
+  energyCalculator: {
+    /* As tarifas e o histórico de bandeiras ficam em energy-data.js (gerado por scripts/build-energy-data.py). */
+    /* Adicional por kWh de cada bandeira tarifária (R$/kWh), conforme REH ANEEL nº 3.306/2024. */
+    flags: [
+      { id: "verde", name: "Verde (sem acréscimo)", short: "Verde", extra: 0 },
+      { id: "amarela", name: "Amarela", short: "Amarela", extra: 0.01885 },
+      { id: "vermelha1", name: "Vermelha patamar 1", short: "Vermelha 1", extra: 0.04463 },
+      { id: "vermelha2", name: "Vermelha patamar 2", short: "Vermelha 2", extra: 0.07877 }
+    ],
+    /* Potência média de referência (W) e uso típico. Usados em "Consumo por aparelho". featured: aparece em "Aparelhos em destaque". */
+    appliances: [
+      { name: "Chuveiro elétrico 5.500 W", category: "Banheiro", power: 5500, hours: 0.5, days: 30, featured: true },
+      { name: "Chuveiro elétrico 7.500 W", category: "Banheiro", power: 7500, hours: 0.5, days: 30, featured: true },
+      { name: "Torneira elétrica", category: "Cozinha", power: 3500, hours: 0.15, days: 30, featured: true },
+      { name: "Aquecedor de passagem elétrico", category: "Banheiro", power: 8000, hours: 0.5, days: 30, featured: true },
+      { name: "Secador de cabelo", category: "Banheiro", power: 1500, hours: 0.25, days: 20 },
+      { name: "Chapinha", category: "Banheiro", power: 200, hours: 0.5, days: 15 },
+      { name: "Aquecedor de água (boiler)", category: "Banheiro", power: 3000, hours: 2, days: 30, featured: true },
+      { name: "Geladeira frost free", category: "Cozinha", power: 60, hours: 24, days: 30 },
+      { name: "Geladeira comum", category: "Cozinha", power: 45, hours: 24, days: 30 },
+      { name: "Freezer horizontal", category: "Cozinha", power: 70, hours: 24, days: 30 },
+      { name: "Micro-ondas", category: "Cozinha", power: 1200, hours: 0.25, days: 30 },
+      { name: "Forno elétrico", category: "Cozinha", power: 1500, hours: 0.5, days: 12 },
+      { name: "Air fryer", category: "Cozinha", power: 1500, hours: 0.5, days: 20 },
+      { name: "Cafeteira elétrica", category: "Cozinha", power: 800, hours: 0.25, days: 30 },
+      { name: "Liquidificador", category: "Cozinha", power: 400, hours: 0.1, days: 15 },
+      { name: "Lava-louças", category: "Cozinha", power: 1500, hours: 1, days: 15 },
+      { name: "Purificador de água", category: "Cozinha", power: 80, hours: 24, days: 30 },
+      { name: "Cooktop de indução (1 boca)", category: "Cozinha", power: 2000, hours: 0.75, days: 30 },
+      { name: "Ar-condicionado 9.000 BTU inverter", category: "Climatização", power: 650, hours: 8, days: 30 },
+      { name: "Ar-condicionado 12.000 BTU inverter", category: "Climatização", power: 900, hours: 8, days: 30, featured: true },
+      { name: "Ar-condicionado 18.000 BTU inverter", category: "Climatização", power: 1400, hours: 8, days: 30 },
+      { name: "Ar-condicionado 12.000 BTU convencional", category: "Climatização", power: 1200, hours: 8, days: 30 },
+      { name: "Ventilador de teto", category: "Climatização", power: 120, hours: 8, days: 30 },
+      { name: "Ventilador de mesa", category: "Climatização", power: 65, hours: 8, days: 30 },
+      { name: "Aquecedor elétrico", category: "Climatização", power: 1500, hours: 4, days: 30 },
+      { name: "Aquecedor a óleo", category: "Climatização", power: 1500, hours: 6, days: 30, featured: true },
+      { name: "Máquina de lavar roupa", category: "Lavanderia", power: 500, hours: 1, days: 12 },
+      { name: "Secadora de roupa", category: "Lavanderia", power: 3000, hours: 1, days: 8 },
+      { name: "Ferro de passar", category: "Lavanderia", power: 1000, hours: 1, days: 8 },
+      { name: "TV LED 43\"", category: "Entretenimento", power: 70, hours: 5, days: 30 },
+      { name: "TV LED 55\"", category: "Entretenimento", power: 110, hours: 5, days: 30 },
+      { name: "Videogame", category: "Entretenimento", power: 150, hours: 3, days: 30 },
+      { name: "Som / caixa de som", category: "Entretenimento", power: 50, hours: 3, days: 30 },
+      { name: "Computador gamer", category: "Escritório", power: 450, hours: 4, days: 30 },
+      { name: "Computador de mesa", category: "Escritório", power: 200, hours: 8, days: 22 },
+      { name: "Notebook", category: "Escritório", power: 65, hours: 8, days: 22 },
+      { name: "Monitor", category: "Escritório", power: 30, hours: 8, days: 22 },
+      { name: "Impressora", category: "Escritório", power: 30, hours: 0.5, days: 10 },
+      { name: "Roteador Wi-Fi", category: "Escritório", power: 12, hours: 24, days: 30 },
+      { name: "Carregador de celular", category: "Escritório", power: 20, hours: 2, days: 30 },
+      { name: "Lâmpada LED 9 W", category: "Iluminação", power: 9, hours: 6, days: 30 },
+      { name: "Lâmpada fluorescente 20 W", category: "Iluminação", power: 20, hours: 6, days: 30 },
+      { name: "Lâmpada incandescente 60 W", category: "Iluminação", power: 60, hours: 6, days: 30 },
+      { name: "Bomba de piscina 1/2 cv", category: "Área externa", power: 750, hours: 6, days: 30 },
+      { name: "Bomba d'água 1/2 cv", category: "Área externa", power: 750, hours: 0.5, days: 30 },
+      { name: "Portão eletrônico", category: "Área externa", power: 300, hours: 0.1, days: 30, featured: true },
+      { name: "Carro elétrico (carregador 7 kW)", category: "Área externa", power: 7000, hours: 1, days: 30, featured: true }
+    ],
+    /* Faixas de consumo mensal exibidas em "Quanto custa". */
+    consumptionLevels: [30, 50, 100, 150, 200, 250, 300, 400, 500, 750, 1000],
+    /* Premissas do simulador solar. Ajuste o custo médio do kWp instalado conforme o mercado. */
+    solar: { costPerKwp: 4000, performanceRatio: 0.8, panelWatts: 550 }
   },
   messages: {
     general: "Olá! Vim pelo Alle Connect e gostaria de falar com a equipe Alle Energia.",
