@@ -2,6 +2,9 @@
 window.ALLE_CONFIG = Object.freeze({
   discountPercentage: 35,
   maxDiscountPercentage: 35,
+  /* Desconto do simulador rápido por tipo de cliente (PF = Pessoa Física, PJ = Pessoa Jurídica). */
+  profileDiscounts: { pf: 15, pj: 35 },
+  defaultProfile: "pf",
   contacts: {
     generalWhatsApp: "5512953697411",
     officialSite: "https://alleenergia.com",
